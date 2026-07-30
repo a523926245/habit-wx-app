@@ -1,0 +1,244 @@
+{
+  "lazyCodeLoading": "autoComponents",
+  "pages": [
+    {
+      "path": "pages/splash/splash",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录/注册",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/register/register",
+      "style": {
+        "navigationBarTitleText": "创建账号",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/family/choose-family/index",
+      "style": {
+        "navigationBarTitleText": "选择加入方式"
+      }
+    },
+    {
+      "path": "pages/family/create-family/index",
+      "style": {
+        "navigationBarTitleText": "创建家庭"
+      }
+    },
+    {
+      "path": "pages/join-family/index",
+      "style": {
+        "navigationBarTitleText": "加入家庭"
+      }
+    },
+    // --- 家长端 tabBar 页面 ---
+    {
+      "path": "pages/parent/battle/index",
+      "style": {
+        "navigationBarTitleText": "BOSS战场"
+      }
+    },
+    {
+      "path": "pages/parent/rank/index",
+      "style": {
+        "navigationBarTitleText": "排行榜"
+      }
+    },
+    {
+      "path": "pages/parent/profile/index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    // --- 孩子端 tabBar 页面 ---
+    {
+      "path": "pages/child/home/index",
+      "style": {
+        "navigationBarTitleText": "孩子首页"
+      }
+    },
+    {
+      "path": "pages/child/battle/index",
+      "style": {
+        "navigationBarTitleText": "BOSS战场"
+      }
+    },
+    {
+      "path": "pages/child/rank/index",
+      "style": {
+        "navigationBarTitleText": "排行榜"
+      }
+    },
+    {
+      "path": "pages/child/shop/index",
+      "style": {
+        "navigationBarTitleText": "商城"
+      }
+    },
+    {
+      "path": "pages/child/profile/index",
+      "style": {
+        "navigationBarTitleText": "个人资料"
+      }
+    },
+    // --- 家长端页面 ---
+    {
+      "path": "pages/parent/home/index",
+      "style": {
+        "navigationBarTitleText": "勇者乐园",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cards/manage/index",
+      "style": {
+        "navigationBarTitleText": "卡牌管理"
+      }
+    },
+    {
+      "path": "pages/cards/edit/index",
+      "style": {
+        "navigationBarTitleText": "编辑卡牌"
+      }
+    },
+    {
+      "path": "pages/boss-manage/index",
+      "style": {
+        "navigationBarTitleText": "BOSS管理"
+      }
+    },
+    {
+      "path": "pages/pending/index",
+      "style": {
+        "navigationBarTitleText": "我的待办"
+      }
+    },
+    {
+      "path": "pages/family-manage/index",
+      "style": {
+        "navigationBarTitleText": "家庭管理"
+      }
+    },
+    // ============================================================
+    // Phase 4: 进阶功能（页面文件尚未实现，暂不注册路由）
+    // 以下路由在对应页面创建后取消注释即可：
+    // ============================================================
+    // --- 商城管理 ---
+    // { "path": "pages/shop/index", "style": { "navigationBarTitleText": "商品管理" } },
+    // { "path": "pages/shop/edit/index", "style": { "navigationBarTitleText": "编辑商品" } },
+    // { "path": "pages/shop/redemptions/index", "style": { "navigationBarTitleText": "兑换记录" } },
+    // --- 金币流水 ---
+    // { "path": "pages/coins/index", "style": { "navigationBarTitleText": "金币流水" } },
+    // --- 每日复盘 ---
+    // { "path": "pages/review/index", "style": { "navigationBarTitleText": "每日复盘" } },
+    // --- 签到日历 ---
+    // { "path": "pages/checkin-calendar/index", "style": { "navigationBarTitleText": "签到日历" } },
+    // --- 扭蛋系统 ---
+    // { "path": "pages/magic-box/index", "style": { "navigationBarTitleText": "我的扭蛋" } },
+    // { "path": "pages/magic-box-shop/index", "style": { "navigationBarTitleText": "扭蛋商城" } },
+    // --- 兑换券 ---
+    // { "path": "pages/voucher/index", "style": { "navigationBarTitleText": "我的兑换券" } },
+    // { "path": "pages/voucher-use/index", "style": { "navigationBarTitleText": "兑换券使用" } },
+    // --- 系统配置 ---
+    // { "path": "pages/settings/index", "style": { "navigationBarTitleText": "系统配置" } },
+    // { "path": "pages/settings/checkin-config", "style": { "navigationBarTitleText": "签到配置" } },
+    // { "path": "pages/settings/boss-levels", "style": { "navigationBarTitleText": "BOSS等级" } },
+    // { "path": "pages/settings/combo-config", "style": { "navigationBarTitleText": "连击加成" } },
+    // { "path": "pages/settings/rank-tiers", "style": { "navigationBarTitleText": "段位配置" } },
+    // { "path": "pages/settings/gacha-config", "style": { "navigationBarTitleText": "扭蛋配置" } }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "勇者乐园",
+    "navigationBarBackgroundColor": "#0B0C1F",
+    "backgroundColor": "#0B0C1F"
+  },
+  "easycom": {
+    "custom": {
+      "ph-tab-bar": "@/components/ph-tab-bar/ph-tab-bar.vue",
+      "app-nav-bar": "@/components/app-nav-bar/app-nav-bar.vue",
+      "app-tab-bar": "@/components/app-tab-bar/app-tab-bar.vue",
+      "app-dialog": "@/components/app-dialog/app-dialog.vue",
+      "app-toast": "@/components/app-toast/app-toast.vue",
+      "app-loading": "@/components/app-loading/app-loading.vue",
+      "app-empty": "@/components/app-empty/app-empty.vue",
+      "task-card": "@/components/task-card/task-card.vue",
+      "boss-card": "@/components/boss-card/boss-card.vue",
+      "profile-header": "@/components/profile-header/profile-header.vue",
+      "checkin-milestone": "@/components/checkin-milestone/checkin-milestone.vue",
+      "empty-state": "@/components/empty-state/empty-state.vue"
+    }
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#a9a9c2",
+    "selectedColor": "#6ad6ff",
+    "backgroundColor": "#16172e",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/parent/home/index",
+        "text": "主页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/parent/battle/index",
+        "text": "战斗",
+        "iconPath": "static/tab/battle.png",
+        "selectedIconPath": "static/tab/battle-active.png"
+      },
+      {
+        "pagePath": "pages/parent/rank/index",
+        "text": "排行",
+        "iconPath": "static/tab/rank.png",
+        "selectedIconPath": "static/tab/rank-active.png"
+      },
+      {
+        "pagePath": "pages/parent/profile/index",
+        "text": "我的",
+        "iconPath": "static/tab/profile.png",
+        "selectedIconPath": "static/tab/profile-active.png"
+      },
+      {
+        "pagePath": "pages/child/home/index",
+        "text": "主页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/child/battle/index",
+        "text": "战斗",
+        "iconPath": "static/tab/battle.png",
+        "selectedIconPath": "static/tab/battle-active.png"
+      },
+      {
+        "pagePath": "pages/child/rank/index",
+        "text": "排行",
+        "iconPath": "static/tab/rank.png",
+        "selectedIconPath": "static/tab/rank-active.png"
+      },
+      {
+        "pagePath": "pages/child/shop/index",
+        "text": "商城",
+        "iconPath": "static/tab/shop.png",
+        "selectedIconPath": "static/tab/shop-active.png"
+      },
+      {
+        "pagePath": "pages/child/profile/index",
+        "text": "我的",
+        "iconPath": "static/tab/profile.png",
+        "selectedIconPath": "static/tab/profile-active.png"
+      }
+    ]
+  }
+}
