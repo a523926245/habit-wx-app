@@ -3,7 +3,7 @@ name: development-plan
 description: 勇者乐园小程序开发计划 — 分阶段实施路线、文件清单、用户旅程
 version: 1
 created: 2026-07-02
-lastUpdated: 2026-07-29
+lastUpdated: 2026-07-30
 phase: 3
 status: in-progress
 ---
@@ -48,6 +48,7 @@ Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全
 | `src/utils/storage.ts` | set/get/remove/clearStorageSync + STORAGE_KEYS | `shared_preferences` |
 | `src/utils/toast.ts` | showToast/showLoadingToast 封装 | `toast.dart` |
 | `src/utils/debounce.ts` | 按钮防抖 Hook（useDebounce） | `debounce_button.dart` |
+| `src/utils/image.ts` | 图片选择/上传工具（chooseImage, uploadImage） | — |
 
 ### 0.3 网络层 (api/) ✅
 
@@ -179,6 +180,7 @@ Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全
 | ProfileHeader | `components/profile-header/` | 用户信息头（头像+统计行） |
 | CheckinMilestone | `components/checkin-milestone/` | 签到里程碑时间线 |
 | EmptyState | `components/empty-state/` | 空状态占位 |
+| AppImageUpload | `components/app-image-upload/` | 图片上传组件（支持 v-model） |
 
 ### 2.6 配置更新 ✅
 

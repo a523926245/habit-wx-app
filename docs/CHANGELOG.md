@@ -6,6 +6,26 @@
 
 ## [Unreleased]
 
+### 功能: 自定义头像上传 (2026-07-30)
+
+**需求**: 用户头像支持自定义上传，使用 imgbb 云存储，同时保留 Emoji 选择。
+
+**新增**:
+- `utils/image.ts` — 公共图片选择/上传工具模块
+- `components/app-image-upload/` — 可复用图片上传组件
+
+**改动**:
+- `stores/auth.ts` — 新增 `updateAvatar()` 方法
+- `pages/child/profile/index.vue` — 头像支持拍照/相册/Emoji 三种方式
+- `pages/parent/profile/index.vue` — 同上
+- `config/api.ts` — API 地址改为局域网 IP（开发环境）
+
+**后端** (habit-battle/server):
+- 新增 `services/uploadService.js` — 公共图片上传服务（imgbb + 本地 fallback）
+- `routes/auth.js` — avatar 路由改用上传服务
+- 新增 `.env` 配置支持（dotenv）
+- `.gitignore` 忽略 `.env` 防止密钥泄漏
+
 ### 修复: Tab 选项卡样式统一 + 排行榜段位显示中文 (2026-07-29)
 
 **问题 1**: BOSS 战场、排行榜等页面使用 `ph-tab-bar` 组件（下划线指示器样式），与"我的待办"页面的胶囊样式不一致，影响视觉统一性。
