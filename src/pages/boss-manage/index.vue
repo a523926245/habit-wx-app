@@ -197,12 +197,12 @@ function getDifficultyLabel(boss: Boss): string {
 }
 
 function createBoss() {
-  uni.navigateTo({ url: "/pages/boss-manage/edit" });
+  uni.navigateTo({ url: "/pages/boss-manage/edit/index" });
 }
 
 function editBoss(boss: Boss) {
   const params = encodeURIComponent(JSON.stringify({ id: boss.id }));
-  uni.navigateTo({ url: `/pages/boss-manage/edit?params=${params}` });
+  uni.navigateTo({ url: `/pages/boss-manage/edit/index?params=${params}` });
 }
 
 function refreshBoss(boss: Boss) {

@@ -248,6 +248,14 @@ Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全
 |------|------|------|
 | tabBar 引用 5 个孩子端页面但未注册路由 | `pages.json` | 在 `pages` 数组中注册 child/home, child/battle, child/rank, child/shop, child/profile |
 
+### 3.5 BOSS管理编辑页缺失修复 (2026-07-30)
+
+| 问题 | 文件 | 修复 |
+|------|------|------|
+| 点击编辑/创建 BOSS 报 `navigateTo:fail page not found` | `pages/boss-manage/edit/index.vue` | 新建 BOSS 编辑/创建页面 |
+| 路由未注册 | `pages.json` | 注册 `pages/boss-manage/edit/index` |
+| 导航路径不含 `/index`，与项目约定不一致 | `pages/boss-manage/index.vue` | 导航改为 `/pages/boss-manage/edit/index` |
+
 ---
 
 ## Phase 4: 进阶功能

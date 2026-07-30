@@ -6,6 +6,15 @@
 
 ## [Unreleased]
 
+### 修复: BOSS管理编辑页缺失导致 navigateTo 报错 (2026-07-30)
+
+**问题**: 点击 BOSS 管理页面的 BOSS 卡片「编辑」或右下角「+」创建按钮时，报错 `navigateTo:fail page "pages/boss-manage/edit" is not found`。原因：`boss-manage/index.vue` 导航至 `/pages/boss-manage/edit`，但该页面从未创建，路由也未注册。
+
+**修复**:
+- 新建 `pages/boss-manage/edit/index.vue` — BOSS 编辑/创建页面（Emoji 选择、名称、血量、难度、故事、攻击倍率、奖励、结束时间、状态）
+- `pages.json` — 注册 `pages/boss-manage/edit/index` 路由
+- `pages/boss-manage/index.vue` — 导航路径从 `/pages/boss-manage/edit` 改为 `/pages/boss-manage/edit/index`（与卡片编辑页路径风格一致）
+
 ### 功能: 自定义头像上传 (2026-07-30)
 
 **需求**: 用户头像支持自定义上传，使用 imgbb 云存储，同时保留 Emoji 选择。

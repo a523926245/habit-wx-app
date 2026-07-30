@@ -117,6 +117,12 @@
       }
     },
     {
+      "path": "pages/boss-manage/edit/index",
+      "style": {
+        "navigationBarTitleText": "编辑BOSS"
+      }
+    },
+    {
       "path": "pages/pending/index",
       "style": {
         "navigationBarTitleText": "我的待办"
