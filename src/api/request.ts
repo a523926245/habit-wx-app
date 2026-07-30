@@ -78,15 +78,26 @@ function request<T = unknown>(options: RequestOptions): Promise<ApiResult<T>> {
         formData: data as Record<string, unknown>,
         success: (res: unknown) => {
           const r = res as { data: string; statusCode: number; errMsg: string };
+          // 检查 r.data 是否存在且非空，防止空数据导致的崩溃
+          if (!r.data || r.data.trim() === "") {
+            resolve({ success: false, error: "服务器返回空数据" });
+            return;
+          }
           try {
-            const body: ApiResponse<T> = JSON.parse(r.data);
+            const parsedData = JSON.parse(r.data);
+            // 确保解析后的对象有必要的结构
+            if (!parsedData || typeof parsedData.code !== "number") {
+              resolve({ success: false, error: "响应格式错误" });
+              return;
+            }
+            const body: ApiResponse<T> = parsedData;
             if (body.code === ErrorCode.SUCCESS) {
               resolve({ success: true, data: body.data });
             } else if (body.code === ErrorCode.UNAUTHORIZED) {
               handleUnauthorized();
-              resolve({ success: false, error: body.msg, code: body.code });
+              resolve({ success: false, error: body.msg || ErrorMessages[ErrorCode.UNAUTHORIZED], code: body.code });
             } else {
-              resolve({ success: false, error: body.msg, code: body.code });
+              resolve({ success: false, error: body.msg || ErrorMessages[ErrorCode.VALIDATION_ERROR], code: body.code });
             }
           } catch (e) {
             resolve({ success: false, error: PARSE_ERROR_MESSAGE });
@@ -105,13 +116,25 @@ function request<T = unknown>(options: RequestOptions): Promise<ApiResult<T>> {
       data: data as Record<string, unknown>,
       header,
       success: (res: unknown) => {
-        const r = res as { statusCode: number; data: ApiResponse<T> };
+        const r = res as { statusCode: number; data: unknown };
         if (r.statusCode !== HTTP_OK) {
           resolve({ success: false, error: `HTTP ${r.statusCode}`, code: r.statusCode });
           return;
         }
 
-        const body: ApiResponse<T> = r.data;
+        // 检查 r.data 是否存在且为有效对象
+        if (!r.data || typeof r.data !== "object") {
+          resolve({ success: false, error: "响应数据格式无效" });
+          return;
+        }
+
+        const body = r.data as ApiResponse<T>;
+
+        // 确保 body.code 是有效的数字
+        if (typeof body.code !== "number") {
+          resolve({ success: false, error: "响应缺少必要字段" });
+          return;
+        }
 
         if (body.code === ErrorCode.SUCCESS) {
           resolve({ success: true, data: body.data });
