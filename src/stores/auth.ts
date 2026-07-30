@@ -315,6 +315,26 @@ async function updateProfile(nickname: string): Promise<boolean> {
   }
 }
 
+/**
+ * 更新头像 URL 到本地状态和持久化存储
+ * @param avatarUrl 新头像 URL（由后端上传接口返回）
+ * @returns 是否更新成功
+ */
+function updateAvatar(avatarUrl: string): boolean {
+  if (!user.value) return false;
+
+  try {
+    user.value = { ...user.value, avatar: avatarUrl };
+    storage.setStorageSync(
+      storage.STORAGE_KEYS.CURRENT_USER,
+      JSON.stringify(user.value)
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 // ==================== 导出 ====================
 
 export function useAuthStore() {
@@ -336,6 +356,7 @@ export function useAuthStore() {
     clearError,
     refreshUser,
     updateProfile,
+    updateAvatar,
   };
 }
 

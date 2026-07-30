@@ -3,7 +3,7 @@
  * 对应 Flutter 端的 ApiClient 配置
  */
 
-/** API 基础 URL（开发环境） */
+/** API 基础 URL（开发环境 - 局域网 IP） */
 export const API_BASE_URL = "http://localhost:3000/api";
 
 /** 请求超时时间（毫秒） */

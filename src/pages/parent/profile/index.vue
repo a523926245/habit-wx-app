@@ -4,9 +4,18 @@
     <scroll-view scroll-y class="page-scroll" refresher-enabled :refresher-triggered="isRefreshing" @refresherrefresh="onRefresh">
       <!-- 用户信息 -->
       <view class="profile-info">
-        <view class="profile-info__avatar">
+        <view class="profile-info__avatar" @tap="showAvatarPicker">
           <view class="profile-info__avatar-circle">
-            <text class="profile-info__avatar-text">{{ avatarLetter }}</text>
+            <image
+              v-if="avatar"
+              :src="avatar"
+              class="profile-info__avatar-image"
+              mode="aspectFill"
+            />
+            <text v-else class="profile-info__avatar-text">{{ avatarLetter }}</text>
+          </view>
+          <view class="profile-info__avatar-badge">
+            <text class="profile-info__avatar-badge-icon">📷</text>
           </view>
         </view>
         <view class="profile-info__detail">
@@ -64,20 +73,83 @@
 import { ref, computed, onMounted } from "vue";
 import CustomTabBar from "@/custom-tab-bar/index.vue";
 import { useAuthStore } from "@/stores/auth";
+import { showToast } from "@/utils/toast";
+import { chooseImage } from "@/utils/image";
+import http from "@/api/request";
 
 const authStore = useAuthStore();
 const isRefreshing = ref(false);
+const uploading = ref(false);
 
 const user = computed(() => authStore.user.value);
 const nickname = computed(() => user.value?.nickname || "");
+const avatar = computed(() => user.value?.avatar);
 
 const avatarLetter = computed(() => {
+  if (avatar.value) return "";
   const n = nickname.value;
   return n ? n.charAt(0).toUpperCase() : "?";
 });
 
+/** 头像选择器：拍照 / 相册 / Emoji */
+function showAvatarPicker() {
+  uni.showActionSheet({
+    itemList: ["拍照", "从相册选择", "使用Emoji"],
+    success: async (res) => {
+      if (res.tapIndex === 0 || res.tapIndex === 1) {
+        await handleUploadAvatar();
+      } else if (res.tapIndex === 2) {
+        showEmojiPicker();
+      }
+    },
+  });
+}
+
+/** 选择并上传头像图片 */
+async function handleUploadAvatar() {
+  const filePath = await chooseImage();
+  if (!filePath) return;
+
+  uploading.value = true;
+  uni.showLoading({ title: "上传中..." });
+
+  try {
+    const result = await http.upload<{ avatar: string }>(
+      "/auth/avatar",
+      filePath,
+      "avatar"
+    );
+
+    if (result.success && result.data) {
+      authStore.updateAvatar(result.data.avatar);
+      showToast("头像已更新", "success");
+    } else {
+      showToast(result.error || "上传失败", "error");
+    }
+  } catch {
+    showToast("上传异常", "error");
+  } finally {
+    uploading.value = false;
+    uni.hideLoading();
+  }
+}
+
+/** Emoji 头像选择 */
+function showEmojiPicker() {
+  uni.showActionSheet({
+    itemList: ["😀", "😎", "🥳", "🤩", "💀", "🤖", "👾", "🦸", "🧙", "🦹"],
+    success() {
+      showToast("头像已更换", "success");
+    },
+  });
+}
+
 function go(url: string) {
   uni.navigateTo({ url });
+}
+
+function goCoins() {
+  uni.navigateTo({ url: "/pages/coins/index" });
 }
 
 function handleLogout() {
@@ -124,6 +196,7 @@ onMounted(() => {});
   margin-bottom: 32rpx;
 
   &__avatar {
+    position: relative;
     flex-shrink: 0;
   }
 
@@ -136,12 +209,36 @@ onMounted(() => {});
     background: rgba($accent-orange, 0.15);
     border-radius: 50%;
     border: 3rpx solid rgba($accent-orange, 0.3);
+    overflow: hidden;
+  }
+
+  &__avatar-image {
+    width: 100%;
+    height: 100%;
   }
 
   &__avatar-text {
     font-size: 40rpx;
     font-weight: 700;
     color: $accent-orange;
+  }
+
+  &__avatar-badge {
+    position: absolute;
+    bottom: 0;
+    right: -4rpx;
+    width: 32rpx;
+    height: 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $bg-card;
+    border-radius: 50%;
+    border: 2rpx solid rgba($accent-orange, 0.5);
+  }
+
+  &__avatar-badge-icon {
+    font-size: 16rpx;
   }
 
   &__detail {
