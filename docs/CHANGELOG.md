@@ -6,6 +6,37 @@
 
 ## [Unreleased]
 
+### v1.3 (2026-07-31) - Phase 4 进阶功能完成
+
+完成 Phase 4 全部 16 个进阶页面开发：
+
+**新增页面**:
+- `pages/shop/index.vue` — 商城商品列表（全部/扭蛋 Tab）
+- `pages/shop/edit/index.vue` — 商品创建/编辑表单
+- `pages/shop/redemptions/index.vue` — 兑换记录列表（全部/待确认/已确认/已拒绝）
+- `pages/coins/index.vue` — 金币余额汇总 + 月份交易明细
+- `pages/checkin-calendar/index.vue` — 签到日历（月度网格 + 连续统计）
+- `pages/magic-box/index.vue` — 扭蛋库存（未开启列表 + 开蛋）
+- `pages/magic-box-shop/index.vue` — 扭蛋商城（4 档位购买）
+- `pages/voucher/index.vue` — 兑换券列表（未使用/已使用）
+- `pages/voucher-use/index.vue` — 兑换券使用（选择商品）
+- `pages/review/index.vue` — 每日复盘（月份选择 + 汇总 + 日历视图）
+- `pages/settings/index.vue` — 系统配置入口
+- `pages/settings/checkin-config.vue` — 签到里程碑奖励配置
+- `pages/settings/boss-levels.vue` — BOSS 难度等级倍率配置
+- `pages/settings/combo-config.vue` — 连击组合奖励配置
+- `pages/settings/rank-tiers.vue` — 段位名称/阈值配置
+- `pages/settings/gacha-config.vue` — 扭蛋档位价格/概率配置
+
+**改动**:
+- `pages.json` — 注册全部 16 个 Phase 4 路由
+
+**修复**:
+- `voucher-use/index.vue` — 修复 `useVoucher` 函数命名冲突（模板调用与 API 导入同名）
+- `gacha-config.vue` — 修复 `coin_max` 属性名（改为 camelCase `coinMax`）
+- `coins/index.vue` — 修复 API 返回字段名 `currentBalance` → `currentCoins`
+- `shop/edit/index.vue` — 修复 `.find()` 类型匹配问题
+
 ### 修复: BOSS管理编辑页缺失导致 navigateTo 报错 (2026-07-30)
 
 **问题**: 点击 BOSS 管理页面的 BOSS 卡片「编辑」或右下角「+」创建按钮时，报错 `navigateTo:fail page "pages/boss-manage/edit" is not found`。原因：`boss-manage/index.vue` 导航至 `/pages/boss-manage/edit`，但该页面从未创建，路由也未注册。

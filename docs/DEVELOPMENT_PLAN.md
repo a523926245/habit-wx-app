@@ -3,9 +3,9 @@ name: development-plan
 description: 勇者乐园小程序开发计划 — 分阶段实施路线、文件清单、用户旅程
 version: 1
 created: 2026-07-02
-lastUpdated: 2026-07-30
-phase: 3
-status: in-progress
+lastUpdated: 2026-07-31
+phase: 4
+status: completed
 ---
 
 # 勇者乐园 (Habit Battle Camp) — 开发计划
@@ -23,7 +23,7 @@ Phase 0: 基础设施搭建       --> 项目可编译运行，主题/工具链�
 Phase 1: 认证 + 家庭流     --> 注册→建/加入家庭→进入首页（完整闭环）✅
 Phase 2: 孩子端核心         --> 孩子能跑通"看任务→提交→审核→打BOSS→换奖励"
 Phase 3: 家长端核心         --> 家长能跑通"建卡牌→审任务→管理BOSS"
-Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全量上线
+Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全量上线 ✅
 ```
 
 ---
@@ -258,9 +258,64 @@ Phase 4: 进阶功能           --> 商城/扭蛋/签到/排行/复盘/配置全
 
 ---
 
-## Phase 4: 进阶功能
+## Phase 4: 进阶功能 ✅ COMPLETED
 
 **目标**: 商城/扭蛋/签到/排行/复盘/金币流水全量上线，产品功能完整。
+
+### 4.1 商城管理 (shop/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/shop/index.vue` | ✅ 完成 | 家长端商城商品列表（全部/扭蛋 Tab，删除，FAB 创建） |
+| `src/pages/shop/edit/index.vue` | ✅ 完成 | 商品创建/编辑表单（Emoji、名称、价格、档位、类型） |
+| `src/pages/shop/redemptions/index.vue` | ✅ 完成 | 兑换记录列表（全部/待确认/已确认/已拒绝 Tab） |
+
+### 4.2 金币流水 (coins/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/coins/index.vue` | ✅ 完成 | 余额汇总、月份选择、交易明细列表 |
+
+### 4.3 签到日历 (checkin-calendar/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/checkin-calendar/index.vue` | ✅ 完成 | 月度日历网格、连续签到统计 |
+
+### 4.4 扭蛋系统 (magic-box/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/magic-box/index.vue` | ✅ 完成 | 用户未开启扭蛋列表、开蛋操作 |
+| `src/pages/magic-box-shop/index.vue` | ✅ 完成 | 扭蛋商城（4 档位）、购买操作 |
+
+### 4.5 兑换券 (voucher/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/voucher/index.vue` | ✅ 完成 | 兑换券列表（未使用/已使用 Tab） |
+| `src/pages/voucher-use/index.vue` | ✅ 完成 | 选择商品使用兑换券 |
+
+### 4.6 每日复盘 (review/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/review/index.vue` | ✅ 完成 | 月份选择、汇总统计、孩子日历视图 |
+
+### 4.7 系统配置 (settings/) ✅
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `src/pages/settings/index.vue` | ✅ 完成 | 配置菜单入口页 |
+| `src/pages/settings/checkin-config.vue` | ✅ 完成 | 签到里程碑奖励配置 |
+| `src/pages/settings/boss-levels.vue` | ✅ 完成 | BOSS 难度等级倍率配置 |
+| `src/pages/settings/combo-config.vue` | ✅ 完成 | 连击组合奖励配置 |
+| `src/pages/settings/rank-tiers.vue` | ✅ 完成 | 段位名称/阈值配置 |
+| `src/pages/settings/gacha-config.vue` | ✅ 完成 | 扭蛋档位价格/概率配置 |
+
+### 4.8 pages.json 路由注册 ✅
+
+全部 16 个 Phase 4 页面路由已注册。
 
 ---
 
@@ -299,12 +354,12 @@ src/
 
 | 类别 | Phase 0 | Phase 1 | Phase 2 | Phase 3 | Phase 4 | 合计 |
 |------|---------|---------|---------|---------|---------|------|
-| 页面 | 1(重写) | 5 | 5 | 6+13 | 0+7(完善) | ~44 |
+| 页面 | 1(重写) | 5 | 5 | 6+13 | 16 | ~44 |
 | API 文件 | 2 | 0 | 7 | 0 | 0 | 9 |
 | Model 文件 | 1 | 0 | 6 | 0 | 0 | 7 |
 | Store 文件 | 1 | 0 | 6 | 2 | 0 | 10 |
 | Utils 文件 | 4 | 0 | 0 | 0 | 0 | 4 |
-| 组件文件 | 0 | 0 | 6 | 0 | 7 | 13 |
+| 组件文件 | 0 | 0 | 6 | 0 | 0 | 13 |
 | 配置文件 | 4 | 2 | 0 | 0 | 0 | 6 |
 
 ---

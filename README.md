@@ -76,9 +76,7 @@ pnpm dev:h5
 ## 🤝 API 后端
 
 后端接口保持不变，Node.js + Express + SQLite：
-```
-https://3000-yaozhaoyanghabitbat-1gr6hl9igpgqhf1558554-1317484434.ap-shanghai.app.tcloudbase.com/api
-```
+
 
 ## 🎨 视觉风格
 
