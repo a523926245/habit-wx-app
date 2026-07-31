@@ -12,7 +12,7 @@ export interface User {
   avatar?: string;
   coins: number;
   rankScore: number;
-  rankTier: string;
+  rankTier: string | Record<string, unknown>;
   familyName?: string;
   inviteCode?: string;
   parentCode?: string;
@@ -25,7 +25,7 @@ export interface FamilyMember {
   role: 'parent' | 'child';
   coins: number;
   rankScore: number;
-  rankTier: string;
+  rankTier: string | Record<string, unknown>;
   avatar?: string;
 }
 
@@ -43,7 +43,7 @@ export function parseUser(data: Record<string, unknown>): User {
     avatar: data.avatar as string | undefined,
     coins: (data.coins ?? 0) as number,
     rankScore: (data.rank_score ?? data.rankScore ?? 0) as number,
-    rankTier: (data.rank_tier ?? data.rankTier ?? 'bronze') as string,
+    rankTier: (data.rank_tier ?? data.rankTier ?? 'bronze') as string | Record<string, unknown>,
     familyName: (data.family_name ?? data.familyName) as string | undefined,
     inviteCode: (data.invite_code ?? data.inviteCode) as string | undefined,
     parentCode: (data.parent_code ?? data.parentCode) as string | undefined,

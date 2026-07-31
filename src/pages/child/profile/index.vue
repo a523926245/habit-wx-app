@@ -106,7 +106,15 @@ const user = computed(() => authStore.user.value);
 const nickname = computed(() => user.value?.nickname || "");
 const coins = computed(() => user.value?.coins ?? 0);
 const rankScore = computed(() => user.value?.rankScore ?? 0);
-const rankTier = computed(() => user.value?.rankTier || "bronze");
+const rankTier = computed(() => {
+  const tier = user.value?.rankTier;
+  if (!tier) return "bronze";
+  // 如果是对象（后端返回完整段位信息），提取 tier_id 属性
+  if (typeof tier === 'object' && tier !== null) {
+    return (tier as Record<string, unknown>).tier_id as string || "bronze";
+  }
+  return tier;
+});
 const avatar = computed(() => user.value?.avatar);
 
 const avatarLetter = computed(() => {

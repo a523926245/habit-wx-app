@@ -267,7 +267,7 @@ async function refreshUser() {
       const { coins, rankScore, rankTier } = result.data as {
         coins?: number;
         rankScore?: number;
-        rankTier?: string;
+        rankTier?: string | Record<string, unknown>;
       };
       user.value = {
         ...user.value,

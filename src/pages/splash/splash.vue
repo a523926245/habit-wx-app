@@ -5,10 +5,13 @@
     <view class="bg-layer bg-orange" />
 
     <view class="splash-content">
-      <text class="splash-logo">⚔️</text>
-      <text class="splash-title">勇者乐园</text>
-      <view class="splash-loader" />
-      <text class="splash-hint">正在加载中...</text>
+      <img class="splash-logo" src="../../static/logo.png" alt="" />
+      <!-- 加载指示器：三个脉动圆点 -->
+      <view class="pulse-dots">
+        <view class="dot" :style="{ animationDelay: '0s' }" />
+        <view class="dot" :style="{ animationDelay: '0.2s' }" />
+        <view class="dot" :style="{ animationDelay: '0.4s' }" />
+      </view>
     </view>
   </view>
 </template>
@@ -26,12 +29,10 @@ const authStore = useAuthStore();
 onLoad(async () => {
   // 初始化认证状态（含 token 验证）
   await authStore.init();
-
   // 根据登录状态和角色跳转
   if (authStore.isLoggedIn) {
     const role = authStore.user.value?.role;
     const hasFamily = authStore.hasFamily;
-
     if (role === "parent") {
       if (hasFamily) {
         // 家长端：跳转 tabBar 首页
@@ -100,35 +101,36 @@ onLoad(async () => {
 }
 
 .splash-logo {
-  font-size: 96rpx;
+  width: 192rpx;
+  height: 192rpx;
   line-height: 1;
 }
 
-.splash-title {
-  font-size: 44rpx;
-  font-weight: 800;
-  color: $text-primary;
-  letter-spacing: 2rpx;
-}
-
-.splash-loader {
-  width: 48rpx;
-  height: 48rpx;
+.pulse-dots {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
   margin-top: 16rpx;
-  border: 4rpx solid rgba(255, 255, 255, 0.15);
-  border-top-color: $accent-cyan;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  background-color: #6ad6ff;
+  opacity: 0.4;
+  animation: pulse 1.4s ease-in-out infinite;
 }
 
-.splash-hint {
-  font-size: 22rpx;
-  color: $text-disabled;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
   }
 }
 </style>

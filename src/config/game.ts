@@ -22,8 +22,20 @@ export const RANK_TIER_LABELS: Record<string, string> = {
 };
 
 /** 获取段位中文名称 */
-export function getRankTierLabel(tier?: string): string {
+export function getRankTierLabel(tier?: string | Record<string, unknown>): string {
   if (!tier) return "🥉 青铜";
+  // 如果是对象（后端返回完整段位信息），提取 tier_id 或 name 属性
+  if (typeof tier === 'object' && tier !== null) {
+    const tierId = tier.tier_id as string;
+    const name = tier.name as string;
+    if (tierId && RANK_TIER_LABELS[tierId]) {
+      return RANK_TIER_LABELS[tierId];
+    }
+    if (name) {
+      return `${tier.emoji || "🥉"} ${name}`;
+    }
+    return "🥉 青铜";
+  }
   return RANK_TIER_LABELS[tier] || "🥉 青铜";
 }
 

@@ -43,7 +43,7 @@ export interface FamilyMember {
   role: string;
   coins: number;
   rankScore: number;
-  rankTier: string;
+  rankTier: string | Record<string, unknown>;
   avatar?: string;
 }
 
@@ -58,7 +58,7 @@ interface RemoveMemberResponse {
 interface DashboardOverviewResponse {
   coins: number;
   rankScore: number;
-  rankTier: string;
+  rankTier: string | Record<string, unknown>;
 }
 
 /**

@@ -1,5 +1,5 @@
 {
-  "lazyCodeLoading": "autoComponents",
+  "lazyCodeLoading": "requiredComponents",
   "pages": [
     {
       "path": "pages/splash/splash",
@@ -135,32 +135,79 @@
       }
     },
     // ============================================================
-    // Phase 4: 进阶功能（页面文件尚未实现，暂不注册路由）
-    // 以下路由在对应页面创建后取消注释即可：
+    // Phase 4: 进阶功能
     // ============================================================
     // --- 商城管理 ---
-    // { "path": "pages/shop/index", "style": { "navigationBarTitleText": "商品管理" } },
-    // { "path": "pages/shop/edit/index", "style": { "navigationBarTitleText": "编辑商品" } },
-    // { "path": "pages/shop/redemptions/index", "style": { "navigationBarTitleText": "兑换记录" } },
+    {
+      "path": "pages/shop/index",
+      "style": { "navigationBarTitleText": "商品管理" }
+    },
+    {
+      "path": "pages/shop/edit/index",
+      "style": { "navigationBarTitleText": "编辑商品" }
+    },
+    {
+      "path": "pages/shop/redemptions/index",
+      "style": { "navigationBarTitleText": "兑换记录" }
+    },
     // --- 金币流水 ---
-    // { "path": "pages/coins/index", "style": { "navigationBarTitleText": "金币流水" } },
+    {
+      "path": "pages/coins/index",
+      "style": { "navigationBarTitleText": "金币流水" }
+    },
     // --- 每日复盘 ---
-    // { "path": "pages/review/index", "style": { "navigationBarTitleText": "每日复盘" } },
+    {
+      "path": "pages/review/index",
+      "style": { "navigationBarTitleText": "每日复盘" }
+    },
     // --- 签到日历 ---
-    // { "path": "pages/checkin-calendar/index", "style": { "navigationBarTitleText": "签到日历" } },
+    {
+      "path": "pages/checkin-calendar/index",
+      "style": { "navigationBarTitleText": "签到日历" }
+    },
     // --- 扭蛋系统 ---
-    // { "path": "pages/magic-box/index", "style": { "navigationBarTitleText": "我的扭蛋" } },
-    // { "path": "pages/magic-box-shop/index", "style": { "navigationBarTitleText": "扭蛋商城" } },
+    {
+      "path": "pages/magic-box/index",
+      "style": { "navigationBarTitleText": "我的扭蛋" }
+    },
+    {
+      "path": "pages/magic-box-shop/index",
+      "style": { "navigationBarTitleText": "扭蛋商城" }
+    },
     // --- 兑换券 ---
-    // { "path": "pages/voucher/index", "style": { "navigationBarTitleText": "我的兑换券" } },
-    // { "path": "pages/voucher-use/index", "style": { "navigationBarTitleText": "兑换券使用" } },
+    {
+      "path": "pages/voucher/index",
+      "style": { "navigationBarTitleText": "我的兑换券" }
+    },
+    {
+      "path": "pages/voucher-use/index",
+      "style": { "navigationBarTitleText": "兑换券使用" }
+    },
     // --- 系统配置 ---
-    // { "path": "pages/settings/index", "style": { "navigationBarTitleText": "系统配置" } },
-    // { "path": "pages/settings/checkin-config", "style": { "navigationBarTitleText": "签到配置" } },
-    // { "path": "pages/settings/boss-levels", "style": { "navigationBarTitleText": "BOSS等级" } },
-    // { "path": "pages/settings/combo-config", "style": { "navigationBarTitleText": "连击加成" } },
-    // { "path": "pages/settings/rank-tiers", "style": { "navigationBarTitleText": "段位配置" } },
-    // { "path": "pages/settings/gacha-config", "style": { "navigationBarTitleText": "扭蛋配置" } }
+    {
+      "path": "pages/settings/index",
+      "style": { "navigationBarTitleText": "系统配置" }
+    },
+    {
+      "path": "pages/settings/checkin-config",
+      "style": { "navigationBarTitleText": "签到配置" }
+    },
+    {
+      "path": "pages/settings/boss-levels",
+      "style": { "navigationBarTitleText": "BOSS等级" }
+    },
+    {
+      "path": "pages/settings/combo-config",
+      "style": { "navigationBarTitleText": "连击加成" }
+    },
+    {
+      "path": "pages/settings/rank-tiers",
+      "style": { "navigationBarTitleText": "段位配置" }
+    },
+    {
+      "path": "pages/settings/gacha-config",
+      "style": { "navigationBarTitleText": "扭蛋配置" }
+    }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",

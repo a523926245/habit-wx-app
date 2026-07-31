@@ -113,7 +113,13 @@
           >
             <!-- 表情图标 -->
             <view class="task-item__icon">
-              <text class="task-item__emoji">{{ item.cardEmoji || '⭐' }}</text>
+              <image
+                v-if="item.cardCoverType === 'image'"
+                class="task-item__cover"
+                :src="item.cardCoverValue"
+                mode="aspectFill"
+              />
+              <text v-else class="task-item__emoji">{{ item.cardCoverValue || '⭐' }}</text>
             </view>
 
             <!-- 内容 -->
@@ -169,7 +175,15 @@ const tabTitles = ["📋 今日任务", "🗓️ 本周任务", "📆 本月任�
 const nickname = computed(() => authStore.user.value?.nickname || "");
 const familyName = computed(() => authStore.user.value?.familyName || "");
 const coins = computed(() => authStore.user.value?.coins ?? 0);
-const rankTier = computed(() => authStore.user.value?.rankTier || "青铜");
+const rankTier = computed(() => {
+  const tier = authStore.user.value?.rankTier;
+  if (!tier) return "青铜";
+  // 如果是对象（后端返回完整段位信息），提取 name 属性
+  if (typeof tier === 'object' && tier !== null) {
+    return (tier as Record<string, unknown>).name || "青铜";
+  }
+  return tier;
+});
 const streak = computed(() => checkinStore.currentStreak);
 const avatarLetter = computed(() => {
   const n = nickname.value;
@@ -572,6 +586,12 @@ onMounted(() => {
 
   &__emoji {
     font-size: 48rpx;
+  }
+
+  &__cover {
+    width: 100%;
+    height: 100%;
+    border-radius: 16rpx;
   }
 
   &__content {

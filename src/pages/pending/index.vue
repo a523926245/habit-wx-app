@@ -48,7 +48,13 @@
               <!-- 任务内容 -->
               <view class="pending__card-task">
                 <view class="pending__card-task-header">
-                  <text class="pending__card-task-emoji">{{ item.emoji }}</text>
+                  <image
+                    v-if="item.cover_type === 'image'"
+                    class="pending__card-task-cover"
+                    :src="item.cover_value"
+                    mode="aspectFill"
+                  />
+                  <text v-else class="pending__card-task-emoji">{{ item.cover_value }}</text>
                   <text class="pending__card-task-title">{{ item.title }}</text>
                 </view>
                 <view v-if="item.submission_note" class="pending__card-note">
@@ -139,7 +145,8 @@ interface PendingCard {
   id: number;
   card_id: number;
   child_name: string;
-  emoji: string;
+  cover_type: string;
+  cover_value: string;
   title: string;
   coin_reward: number;
   boss_damage: number;
@@ -195,7 +202,8 @@ async function loadPending() {
         id: item.id,
         card_id: item.card_id ?? 0,
         child_name: (item as any).child_name ?? "未知",
-        emoji: (item as any).emoji ?? "⭐",
+        cover_type: (item as any).cover_type ?? "emoji",
+        cover_value: (item as any).cover_value ?? "⭐",
         title: (item as any).title ?? "任务",
         coin_reward: (item as any).coin_reward ?? 0,
         boss_damage: (item as any).boss_damage ?? 0,
@@ -519,6 +527,12 @@ function getFirstChildLetter(name: string): string {
 
   &__card-task-emoji {
     font-size: 44rpx;
+  }
+
+  &__card-task-cover {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 12rpx;
   }
 
   &__card-task-title {
