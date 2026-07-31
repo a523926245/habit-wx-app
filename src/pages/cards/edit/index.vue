@@ -5,15 +5,53 @@
       <!-- 图标选择 -->
       <view class="card-edit__section">
         <text class="card-edit__section-title">图标</text>
-        <view class="card-edit__emoji-grid">
+        <!-- 模式切换 -->
+        <view class="card-edit__mode-row">
+          <view
+            class="card-edit__mode-btn"
+            :class="{ 'card-edit__mode-btn--active': iconMode === 'emoji' }"
+            @tap="iconMode = 'emoji'"
+          >
+            <text class="card-edit__mode-btn-text">Emoji</text>
+          </view>
+          <view
+            class="card-edit__mode-btn"
+            :class="{ 'card-edit__mode-btn--active': iconMode === 'image' }"
+            @tap="iconMode = 'image'"
+          >
+            <text class="card-edit__mode-btn-text">自定义图片</text>
+          </view>
+        </view>
+
+        <!-- Emoji 选择 -->
+        <view v-if="iconMode === 'emoji'" class="card-edit__emoji-grid">
           <view
             v-for="emoji in emojiOptions"
             :key="emoji"
             class="card-edit__emoji-item"
-            :class="{ 'card-edit__emoji-item--active': formData.emoji === emoji }"
+            :class="{ 'card-edit__emoji-item--active': formData.coverType === 'emoji' && formData.coverValue === emoji }"
             @tap="selectEmoji(emoji)"
           >
             <text class="card-edit__emoji-text">{{ emoji }}</text>
+          </view>
+        </view>
+
+        <!-- 自定义图片上传 -->
+        <view v-else class="card-edit__image-upload">
+          <view class="card-edit__image-preview" @tap="handleUploadCover">
+            <image
+              v-if="formData.coverType === 'image' && formData.coverValue"
+              class="card-edit__image-thumb"
+              :src="formData.coverValue"
+              mode="aspectFill"
+            />
+            <view v-else class="card-edit__image-placeholder">
+              <text class="card-edit__image-icon">📷</text>
+              <text class="card-edit__image-hint">点击上传封面图片</text>
+            </view>
+            <view v-if="formData.coverType === 'image' && formData.coverValue" class="card-edit__image-delete" @tap.stop="clearCoverImage">
+              <text class="card-edit__image-delete-text">×</text>
+            </view>
           </view>
         </view>
       </view>
@@ -188,6 +226,7 @@ import { parseTaskCard } from "@/models/card";
 import type { TaskCard } from "@/models/card";
 import { DIFFICULTY_CONFIG, EMOJI_OPTIONS } from "@/config/game";
 import { getMembers } from "@/api/auth";
+import { chooseImage } from "@/utils/image";
 
 const cardStore = useCardStore();
 const authStore = useAuthStore();
@@ -202,13 +241,15 @@ onLoad((query: Record<string, string> | undefined) => {
 
 const isEdit = computed(() => !!routeQuery.value?.id);
 const saving = ref(false);
+const iconMode = ref<"emoji" | "image">("emoji");
 
 const formData = ref({
   title: "",
   description: "",
   type: "daily" as "daily" | "weekly" | "monthly",
   difficulty: 2,
-  emoji: "⭐",
+  coverType: "emoji" as "emoji" | "image",
+  coverValue: "⭐",
   coinReward: "10",
   bossDamage: "8",
   startDate: "",
@@ -277,12 +318,15 @@ async function loadCardData() {
           description: parsed.description || "",
           type: parsed.type,
           difficulty: parsed.difficulty,
-          emoji: parsed.emoji,
+          coverType: parsed.coverType,
+          coverValue: parsed.coverValue,
           coinReward: String(parsed.coinReward),
           bossDamage: String(parsed.bossDamage),
           startDate: "",
           expireDate: parsed.expireDate || "",
         };
+        // 根据 coverType 设置模式
+        iconMode.value = parsed.coverType;
         // 加载分配范围
         const assigneeResult = await getAssignees(cardId);
         if (assigneeResult.success && assigneeResult.data?.assignee_scope) {
@@ -307,7 +351,23 @@ async function loadCardData() {
 }
 
 function selectEmoji(emoji: string) {
-  formData.value.emoji = emoji;
+  formData.value.coverType = "emoji";
+  formData.value.coverValue = emoji;
+}
+
+/** 上传封面图片 */
+async function handleUploadCover() {
+  const filePath = await chooseImage({ count: 1, sizeType: ["compressed"], sourceType: ["album", "camera"] });
+  if (filePath) {
+    formData.value.coverType = "image";
+    formData.value.coverValue = filePath;
+  }
+}
+
+/** 清空封面图片 */
+function clearCoverImage() {
+  formData.value.coverType = "emoji";
+  formData.value.coverValue = "⭐";
 }
 
 function selectType(type: string) {
@@ -369,7 +429,8 @@ async function handleSave() {
       description: formData.value.description.trim(),
       type: formData.value.type,
       difficulty: formData.value.difficulty,
-      emoji: formData.value.emoji,
+      coverType: formData.value.coverType,
+      coverValue: formData.value.coverValue,
       coinReward: parseInt(formData.value.coinReward, 10) || formData.value.difficulty * 10,
       bossDamage: parseInt(formData.value.bossDamage, 10) || formData.value.difficulty * 8,
       expireDate: formData.value.expireDate || undefined,
@@ -461,6 +522,38 @@ async function assignToChildren(cardId: number, userIds: number[]) {
     margin-bottom: 32rpx;
   }
 
+  /* 模式切换 */
+  &__mode-row {
+    display: flex;
+    gap: 16rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__mode-btn {
+    flex: 1;
+    padding: 16rpx 0;
+    border-radius: 20rpx;
+    border: 2rpx solid $border-subtle;
+    background: $bg-card;
+    text-align: center;
+  }
+
+  &__mode-btn--active {
+    background: rgba(106, 214, 255, 0.15);
+    border-color: $accent-cyan;
+  }
+
+  &__mode-btn-text {
+    font-size: 26rpx;
+    font-weight: 500;
+    color: $text-secondary;
+  }
+
+  &__mode-btn--active &__mode-btn-text {
+    color: $accent-cyan;
+    font-weight: bold;
+  }
+
   /* 表情选择 */
   &__emoji-grid {
     display: flex;
@@ -489,6 +582,65 @@ async function assignToChildren(cardId: number, userIds: number[]) {
 
   &__emoji-text {
     font-size: 48rpx;
+  }
+
+  /* 自定义图片上传 */
+  &__image-upload {
+    margin-top: 16rpx;
+  }
+
+  &__image-preview {
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 24rpx;
+    border: 3rpx dashed $border-subtle;
+    background: $bg-card;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image-thumb {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image-icon {
+    font-size: 48rpx;
+    margin-bottom: 8rpx;
+  }
+
+  &__image-hint {
+    font-size: 22rpx;
+    color: $text-secondary;
+  }
+
+  &__image-delete {
+    position: absolute;
+    top: 8rpx;
+    right: 8rpx;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background: rgba(255, 107, 53, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image-delete-text {
+    font-size: 28rpx;
+    color: #fff;
+    font-weight: bold;
   }
 
   /* 输入框 */

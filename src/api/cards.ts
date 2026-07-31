@@ -22,7 +22,7 @@ export async function getCards() {
 }
 
 /**
- * 创建卡牌
+ * 创建卡牌（支持文件上传）
  * POST /api/cards
  */
 export async function createCard(params: {
@@ -32,29 +32,51 @@ export async function createCard(params: {
   difficulty?: number;
   coinReward?: number;
   bossDamage?: number;
-  emoji?: string;
+  coverType?: "emoji" | "image";
+  coverValue?: string; // emoji 字符串或本地文件路径
   repeatDays?: string[];
   deadline?: string;
   expireDate?: string;
   assigneeScope?: string;
 }) {
+  const { coverType = "emoji", coverValue = "⭐", ...restParams } = params;
+  
+  // 如果是图片类型且 coverValue 是本地文件路径，使用 FormData 上传
+  if (coverType === "image" && coverValue && (coverValue.startsWith('/') || coverValue.includes('tmp'))) {
+    return request.upload<{ card: TaskCard }>("/cards", coverValue, "cover_value", {
+      title: restParams.title,
+      description: restParams.description,
+      type: restParams.type,
+      difficulty: String(restParams.difficulty ?? 1),
+      coin_reward: String(restParams.coinReward ?? ''),
+      boss_damage: String(restParams.bossDamage ?? ''),
+      cover_type: 'image',
+      repeat_days: restParams.repeatDays ? JSON.stringify(restParams.repeatDays) : '',
+      deadline: restParams.deadline,
+      expire_date: restParams.expireDate,
+      assignee_scope: restParams.assigneeScope,
+    });
+  }
+  
+  // 普通 JSON 请求
   return request.post<{ card: TaskCard }>("/cards", {
-    title: params.title,
-    description: params.description,
-    type: params.type,
-    difficulty: params.difficulty ?? 1,
-    coin_reward: params.coinReward,
-    boss_damage: params.bossDamage,
-    emoji: params.emoji,
-    repeat_days: params.repeatDays,
-    deadline: params.deadline,
-    expire_date: params.expireDate,
-    assignee_scope: params.assigneeScope,
+    title: restParams.title,
+    description: restParams.description,
+    type: restParams.type,
+    difficulty: restParams.difficulty ?? 1,
+    coin_reward: restParams.coinReward,
+    boss_damage: restParams.bossDamage,
+    cover_type: coverType,
+    cover_value: coverValue,
+    repeat_days: restParams.repeatDays,
+    deadline: restParams.deadline,
+    expire_date: restParams.expireDate,
+    assignee_scope: restParams.assigneeScope,
   });
 }
 
 /**
- * 编辑卡牌
+ * 编辑卡牌（支持文件上传）
  * PUT /api/cards/:id
  */
 export async function updateCard(
@@ -66,7 +88,8 @@ export async function updateCard(
     difficulty: number;
     coinReward: number;
     bossDamage: number;
-    emoji: string;
+    coverType: "emoji" | "image";
+    coverValue: string; // emoji 字符串、图片 URL 或本地文件路径
     repeatDays: string[];
     deadline: string;
     expireDate: string;
@@ -74,7 +97,22 @@ export async function updateCard(
     assigneeScope: string;
   }>
 ) {
-  return request.put<{ card: TaskCard }>(`/cards/${id}`, params);
+  const { coverType, coverValue, ...restParams } = params;
+  
+  // 如果是图片类型且 coverValue 是本地文件路径，使用 FormData 上传
+  if (coverType === "image" && coverValue && (coverValue.startsWith('/') || coverValue.includes('tmp'))) {
+    return request.upload<{ card: TaskCard }>(`/cards/${id}`, coverValue, "cover_value", {
+      ...restParams,
+      cover_type: 'image',
+    });
+  }
+  
+  // 普通 JSON 请求
+  return request.put<{ card: TaskCard }>(`/cards/${id}`, {
+    ...restParams,
+    cover_type: coverType,
+    cover_value: coverValue,
+  });
 }
 
 /**

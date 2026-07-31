@@ -12,6 +12,9 @@ export type CardStatus = 'active' | 'inactive';
 /** 重复星期 */
 export type RepeatDay = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
+/** 封面类型 */
+export type CoverType = 'emoji' | 'image';
+
 export interface TaskCard {
   id: number;
   familyId: number;
@@ -21,7 +24,8 @@ export interface TaskCard {
   difficulty: number; // 1-5
   coinReward: number;
   bossDamage: number;
-  emoji: string;
+  coverType: CoverType; // 'emoji' | 'image'
+  coverValue: string;   // emoji 字符串或图片 URL
   repeatDays: RepeatDay[];
   deadline?: string; // HH:MM 格式
   expireDate?: string; // YYYY-MM-DD 格式
@@ -45,7 +49,8 @@ export interface CardAssignment {
   submissionPhoto?: string;
   // JOIN 查询结果
   cardTitle?: string;
-  cardEmoji?: string;
+  cardCoverType?: CoverType; // 卡牌封面类型
+  cardCoverValue?: string;   // 卡牌封面值（emoji 或图片 URL）
   cardType?: CardType;
   coinReward?: number;
   bossDamage?: number;
@@ -87,7 +92,8 @@ export function parseTaskCard(data: Record<string, unknown>): TaskCard {
     difficulty: (data.difficulty as number) ?? 1,
     coinReward: (data.coin_reward ?? data.coinReward ?? 10) as number,
     bossDamage: (data.boss_damage ?? data.bossDamage ?? 10) as number,
-    emoji: (data.emoji as string) ?? '⭐',
+    coverType: ((data.cover_type as CoverType) || 'emoji') as CoverType,
+    coverValue: (data.cover_value as string) || (data.emoji as string) || '⭐',
     repeatDays,
     deadline: data.deadline as string | undefined,
     expireDate: data.expire_date as string | undefined,
@@ -111,7 +117,8 @@ export function parseCardAssignment(data: Record<string, unknown>): CardAssignme
     submissionNote: (data.submission_note ?? data.submissionNote) as string | undefined,
     submissionPhoto: (data.submission_photo ?? data.submissionPhoto) as string | undefined,
     cardTitle: (data.card_title ?? data.cardTitle ?? data.title) as string | undefined,
-    cardEmoji: (data.card_emoji ?? data.cardEmoji ?? data.emoji) as string | undefined,
+    cardCoverType: ((data.card_cover_type ?? data.cardCoverType ?? data.cover_type) as CoverType) || 'emoji',
+    cardCoverValue: (data.card_cover_value ?? data.cardCoverValue ?? data.cover_value ?? data.emoji) as string | undefined,
     cardType: (data.type ?? data.cardType) as CardType | undefined,
     coinReward: (data.coin_reward ?? data.coinReward) as number | undefined,
     bossDamage: (data.boss_damage ?? data.bossDamage) as number | undefined,

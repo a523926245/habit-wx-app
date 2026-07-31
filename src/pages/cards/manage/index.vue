@@ -47,7 +47,13 @@
 
           <!-- 图标 -->
           <view class="card-manage__item-icon" :style="{ borderColor: getTypeColor(card.type) + '40' }">
-            <text class="card-manage__item-emoji">{{ card.emoji }}</text>
+            <image
+              v-if="card.coverType === 'image'"
+              class="card-manage__item-cover"
+              :src="card.coverValue"
+              mode="aspectFill"
+            />
+            <text v-else class="card-manage__item-emoji">{{ card.coverValue }}</text>
           </view>
 
           <!-- 信息 -->
@@ -418,6 +424,12 @@ function getTypeLabel(type: string): string {
 
   &__item-emoji {
     font-size: 64rpx;
+  }
+
+  &__item-cover {
+    width: 100%;
+    height: 100%;
+    border-radius: 28rpx;
   }
 
   &__item-content {
